@@ -88,7 +88,7 @@ const getSearchResults = debounce(async () => {
   }
 
   try {
-    const result = await axios.get(`http://127.0.0.1:8181/api/v1/city?query=${searchQuery.value}`);
+    const result = await axios.get(`http://127.0.0.1:8000/api/v1/city?query=${searchQuery.value}`);
     mapboxSearchResults.value = result?.data?.result?.data?.features || [];
   } catch {
     searchError.value = true;
