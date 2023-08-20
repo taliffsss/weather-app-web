@@ -6,7 +6,8 @@
         v-model="searchQuery"
         @input="getSearchResults"
         placeholder="Search for a city or state"
-        class="py-2 px-1 w-full bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
+        class="py-2 px-1 w-full placeholder-search bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
+        aria-label="Search for a city or state"
       />
       <ul
         class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
@@ -48,49 +49,51 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import CityCardSkeleton from "../components/CityCardSkeleton.vue";
+import { debounce } from 'lodash'; // Assuming lodash is in your project
 import CityList from "../components/CityList.vue";
 
 const router = useRouter();
-const previewCity = (searchResult) => {
+
+interface SearchResult {
+  id: string;
+  place_name: string;
+  geometry: {
+    coordinates: [number, number];
+  };
+}
+
+const previewCity = (searchResult: SearchResult) => {
   const [city, state] = searchResult.place_name.split(",");
   router.push({
     name: "cityView",
-    params: { state: state.replaceAll(" ", ""), city: city },
+    params: { state: state.trim(), city: city.trim() },
     query: {
       lat: searchResult.geometry.coordinates[1],
       lng: searchResult.geometry.coordinates[0],
-      preview: true,
+      preview: 'true',
     },
   });
 };
 
 const searchQuery = ref("");
-const queryTimeout = ref(null);
-const mapboxSearchResults = ref(null);
-const searchError = ref(null);
+const mapboxSearchResults = ref<Array<SearchResult>>([]);
+const searchError = ref<boolean | null>(null);
 
-console.log(searchQuery);
+const getSearchResults = debounce(async () => {
+  searchError.value = null;
 
-const getSearchResults = () => {
-  clearTimeout(queryTimeout.value);
-  queryTimeout.value = setTimeout(async () => {
-    if (searchQuery.value !== "") {
-      try {
-        const result = await axios.get(
-          `http://127.0.0.1:8000/api/v1/city?query=${searchQuery.value}`
-        );
+  if (!searchQuery.value.trim()) {
+    mapboxSearchResults.value = [];
+    return;
+  }
 
-        mapboxSearchResults.value = result?.data?.result?.data?.features;
-      } catch {
-        searchError.value = true;
-      }
-
-      return;
-    }
-    mapboxSearchResults.value = null;
-  }, 300);
-};
+  try {
+    const result = await axios.get(`http://127.0.0.1:8181/api/v1/city?query=${searchQuery.value}`);
+    mapboxSearchResults.value = result?.data?.result?.data?.features || [];
+  } catch {
+    searchError.value = true;
+  }
+}, 300);
 </script>
 
 <style lang="scss" scoped></style>

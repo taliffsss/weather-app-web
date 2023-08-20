@@ -26,7 +26,7 @@ const getCities = async () => {
     savedCities.value.forEach((city) => {
       requests.push(
         axios.get(
-          `http://127.0.0.1:8000/api/v1/weather?lat=${city.coords.lat}&lng=${city.coords.lng}`
+          `http://127.0.0.1:8181/api/v1/weather?lat=${city.coords.lat}&lng=${city.coords.lng}`
         )
       );
     });

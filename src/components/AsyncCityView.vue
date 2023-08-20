@@ -147,12 +147,10 @@ const route = useRoute();
 const getWeatherData = async () => {
   try {
     const weatherData = await axios.get(
-      `http://127.0.0.1:8000/api/v1/forecast?lat=${route.query.lat}&lng=${route.query.lng}`
+      `http://127.0.0.1:8181/api/v1/forecast?lat=${route.query.lat}&lng=${route.query.lng}`
     );
 
     // cal current date & time
-    const localOffset = new Date().getTimezoneOffset() * 60000;
-    const utc = weatherData.data.result.data.current.dt * 1000 + localOffset;
     weatherData.data.result.data.current.currentTime = weatherData?.data?.result?.data?.current?.dt_txt;
 
     // cal hourly weather offset

@@ -10,6 +10,9 @@ export default {
         "weather-primary": "#06b6d4",
         "weather-secondary": "#0891b2",
       },
+      placeholderColor: {
+        'search': '#f8fafc'
+      }
     },
     fontFamily: {
       Roboto: ["Roboto, sans-serif"],
