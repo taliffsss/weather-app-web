@@ -7,12 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        "weather-primary": "#06b6d4",
+        "weather-primary": "#075985",
         "weather-secondary": "#0891b2",
       },
       placeholderColor: {
         'search': '#f8fafc'
-      }
+      },
+      backgroundImage: theme => ({
+        'cloud-bg': "url('https://cdn.mywanderlinx.com/assets/images/noaa-XCkao3y6Gpc-unsplash.jpg')"
+      })
     },
     fontFamily: {
       Roboto: ["Roboto, sans-serif"],

@@ -6,4 +6,29 @@
   .placeholder-search::placeholder {
     color: #f8fafc;
   }
- }
+}
+
+/* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
+.element-with-scroll {
+    overflow-x: scroll;
+}
+
+.element-with-scroll::-webkit-scrollbar {
+    width: 8px;   /* Width of the scrollbar */
+    height: 8px;  /* For vertical scrollbars, set the height */
+}
+
+.element-with-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    border-radius: 4px;
+}
+
+.element-with-scroll::-webkit-scrollbar-track {
+    background: transparent; /* Completely transparent track */
+}
+
+/* For Firefox */
+.element-with-scroll {
+    scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* thumb and track color */
+    scrollbar-width: thin;
+}
