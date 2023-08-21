@@ -7,7 +7,7 @@ My Design is user-friendly and easy to use, at first glance you may know how to 
 
 1. Download or clone backend repository [Weather APP API](https://github.com/taliffsss/weather-app-api)
     
-2.  Please setup API url.
+2.  Clone the Backend Repository: git clone https://github.com/taliffsss/weather-app-web.git cd weather-app-web
 
 ## Project Setup
 ```sh
